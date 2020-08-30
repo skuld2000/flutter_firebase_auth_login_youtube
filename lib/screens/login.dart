@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase_auth_login_youtube/data/join_or_login.dart';
+import 'package:flutter_firebase_auth_login_youtube/helper/loginbackground.dart';
+import 'package:provider/provider.dart';
 
 class AuthPage extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -12,8 +15,11 @@ class AuthPage extends StatelessWidget {
       body: Stack(
         alignment: Alignment.center,
         children: <Widget>[
-          Container(
-            color: Colors.white,
+          CustomPaint(
+            painter:
+                LoginBackground(isJoin: context.watch<JoinOrLogin>().isJoin),
+            //isJoin: Provider.of<JoinOrLogin>(context).isJoin),
+            size: size,
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -26,7 +32,21 @@ class AuthPage extends StatelessWidget {
               Container(
                 height: size.height * 0.1,
               ),
-              Text("Don't have an account? Create one."),
+              GestureDetector(
+                onTap: () {
+                  //Provider.of<JoinOrLogin>(context, listen: false).toggle();
+                  context.read<JoinOrLogin>().toggle();
+                },
+                child: Text(
+                  context.watch<JoinOrLogin>().isJoin
+                      ? "Already have an account? Sign in"
+                      : "Don't have an account? Create one",
+                  style: TextStyle(
+                      color: context.watch<JoinOrLogin>().isJoin
+                          ? Colors.red
+                          : Colors.blue),
+                ),
+              ),
               Container(
                 height: size.height * 0.05,
               ),
@@ -58,13 +78,14 @@ class AuthPage extends StatelessWidget {
                     ),
                     validator: (String value) {
                       if (value.isEmpty) {
-                        return "Please input correct Email.";
+                        return "Please input correct Email";
                       } else {
                         return null;
                       }
                     },
                   ),
                   TextFormField(
+                    obscureText: true,
                     controller: _passwordController,
                     decoration: InputDecoration(
                       icon: Icon(Icons.vpn_key),
@@ -72,7 +93,7 @@ class AuthPage extends StatelessWidget {
                     ),
                     validator: (String value) {
                       if (value.isEmpty) {
-                        return "Please input correct Password.";
+                        return "Please input correct Password";
                       } else {
                         return null;
                       }
@@ -81,7 +102,15 @@ class AuthPage extends StatelessWidget {
                   Container(
                     height: _size.height * 0.02,
                   ),
-                  Text("Forgot Password"),
+                  Consumer<JoinOrLogin>(
+                    builder: (context, joinOrLogin, child) => Opacity(
+                      opacity: joinOrLogin.isJoin ? 0 : 1,
+                      child: Text(
+                        "Forgot Password",
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
