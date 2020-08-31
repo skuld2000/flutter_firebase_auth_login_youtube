@@ -3,6 +3,8 @@ import 'package:flutter_firebase_auth_login_youtube/data/join_or_login.dart';
 import 'package:flutter_firebase_auth_login_youtube/helper/loginbackground.dart';
 import 'package:provider/provider.dart';
 
+import '../data/join_or_login.dart';
+
 class AuthPage extends StatelessWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
@@ -129,18 +131,20 @@ class AuthPage extends StatelessWidget {
         bottom: 0,
         child: SizedBox(
           height: 50,
-          child: RaisedButton(
-            color: Colors.blue,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
-            onPressed: () {
-              if (_formKey.currentState.validate()) {
-                print("button pressed!");
-              }
-            },
-            child: Text(
-              "Login",
-              style: TextStyle(fontSize: 20, color: Colors.white),
+          child: Consumer<JoinOrLogin>(
+            builder: (context, joinOrLogin, child) => RaisedButton(
+              color: joinOrLogin.isJoin ? Colors.red : Colors.blue,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25)),
+              onPressed: () {
+                if (_formKey.currentState.validate()) {
+                  print("button pressed!");
+                }
+              },
+              child: Text(
+                joinOrLogin.isJoin ? "Join" : "Login",
+                style: TextStyle(fontSize: 20, color: Colors.white),
+              ),
             ),
           ),
         ),
@@ -152,7 +156,8 @@ class AuthPage extends StatelessWidget {
           child: FittedBox(
             fit: BoxFit.contain,
             child: CircleAvatar(
-              backgroundImage: NetworkImage("https://picsum.photos/200"),
+              //backgroundImage: NetworkImage("https://picsum.photos/200"),
+              backgroundImage: AssetImage("assets/login.gif"),
             ),
           ),
         ),
