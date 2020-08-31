@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_auth_login_youtube/data/join_or_login.dart';
 import 'package:flutter_firebase_auth_login_youtube/helper/loginbackground.dart';
@@ -12,6 +14,9 @@ class AuthPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Initialize FlutterFire
+    Firebase.initializeApp();
+
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
@@ -57,6 +62,41 @@ class AuthPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _register(BuildContext context) async {
+    final UserCredential result = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+            email: _emailController.text, password: _passwordController.text);
+    final User user = result.user;
+
+    if (user == null) {
+      final snacBar = SnackBar(
+        content: Text('Please try again later'),
+      );
+      Scaffold.of(context).showSnackBar(snacBar);
+    }
+
+    // Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //         builder: (context) => MainPage(
+    //               email: user.email,
+    //             )));
+  }
+
+  void _login(BuildContext context) async {
+    final UserCredential result = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(
+            email: _emailController.text, password: _passwordController.text);
+    final User user = result.user;
+
+    if (user == null) {
+      final snacBar = SnackBar(
+        content: Text('Please try again later'),
+      );
+      Scaffold.of(context).showSnackBar(snacBar);
+    }
   }
 
   Widget _inputForm(Size _size) => Padding(
@@ -138,7 +178,7 @@ class AuthPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(25)),
               onPressed: () {
                 if (_formKey.currentState.validate()) {
-                  print("button pressed!");
+                  joinOrLogin.isJoin ? _register(context) : _login(context);
                 }
               },
               child: Text(
