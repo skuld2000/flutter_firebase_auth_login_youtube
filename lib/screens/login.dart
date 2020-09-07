@@ -115,9 +115,9 @@ class AuthPage extends StatelessWidget {
                   TextFormField(
                     controller: _emailController,
                     decoration: InputDecoration(
-                      icon: Icon(Icons.account_circle),
-                      labelText: "Email",
-                    ),
+                        icon: Icon(Icons.account_circle),
+                        labelText: "Email",
+                        hintText: "you@example.com"),
                     validator: (String value) {
                       if (value.isEmpty) {
                         return "Please input correct Email";
@@ -130,9 +130,9 @@ class AuthPage extends StatelessWidget {
                     obscureText: true,
                     controller: _passwordController,
                     decoration: InputDecoration(
-                      icon: Icon(Icons.vpn_key),
-                      labelText: "Password",
-                    ),
+                        icon: Icon(Icons.vpn_key),
+                        labelText: "Password",
+                        hintText: "6 characters or more"),
                     validator: (String value) {
                       if (value.isEmpty) {
                         return "Please input correct Password";
