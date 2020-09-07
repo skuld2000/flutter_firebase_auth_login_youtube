@@ -14,9 +14,6 @@ class AuthPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Initialize FlutterFire
-    Firebase.initializeApp();
-
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
