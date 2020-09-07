@@ -6,7 +6,10 @@ import 'data/join_or_login.dart';
 import 'screens/login.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp(MyApp());
+void main() async {
+  await Firebase.initializeApp();
+  return runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -21,9 +24,6 @@ class MyApp extends StatelessWidget {
 class Splash extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Initialize FlutterFire
-    Firebase.initializeApp();
-
     return StreamBuilder<User>(
         //authStateChanges : 로그인, 로그아웃 변경사항을 Stream<User> 로 리턴
         stream: FirebaseAuth.instance.authStateChanges(),
