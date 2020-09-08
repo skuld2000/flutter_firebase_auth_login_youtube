@@ -7,6 +7,7 @@ import 'screens/login.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); //main 에서 async 시 이 함수를 호출
   await Firebase.initializeApp();
   return runApp(MyApp());
 }
