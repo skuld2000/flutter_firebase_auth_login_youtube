@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_auth_login_youtube/data/join_or_login.dart';
 import 'package:flutter_firebase_auth_login_youtube/helper/loginbackground.dart';
+import 'package:flutter_firebase_auth_login_youtube/screens/forget_pw.dart';
 import 'package:provider/provider.dart';
 
 import '../data/join_or_login.dart';
@@ -117,8 +118,6 @@ class AuthPage extends StatelessWidget {
                     validator: (String value) {
                       if (value.isEmpty) {
                         return "Please input correct Email";
-                      } else {
-                        return null;
                       }
                     },
                   ),
@@ -143,9 +142,16 @@ class AuthPage extends StatelessWidget {
                   Consumer<JoinOrLogin>(
                     builder: (context, joinOrLogin, child) => Opacity(
                       opacity: joinOrLogin.isJoin ? 0 : 1,
-                      child: Text(
-                        "Forgot Password",
-                        style: TextStyle(color: Colors.grey),
+                      child: GestureDetector(
+                        onTap: joinOrLogin.isJoin //생성시에는 forgot pw 버튼이 눌리지 않게
+                            ? null
+                            : () {
+                                goToForegetPw(context);
+                              },
+                        child: Text(
+                          "Forgot Password",
+                          style: TextStyle(color: Colors.grey),
+                        ),
                       ),
                     ),
                   ),
@@ -155,11 +161,11 @@ class AuthPage extends StatelessWidget {
           ),
         ),
       );
-  // Container(
-  //   width: 100,
-  //   height: 50,
-  //   color: Colors.black,
-  // ),
+
+  goToForegetPw(BuildContext context) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => ForgetPw()));
+  }
 
   Widget _authButton(Size _size) => Positioned(
         left: _size.width * 0.15,
