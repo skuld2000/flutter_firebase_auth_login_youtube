@@ -119,6 +119,7 @@ class AuthPage extends StatelessWidget {
                       if (value.isEmpty) {
                         return "Please input correct Email";
                       }
+                      return null;
                     },
                   ),
                   TextFormField(
@@ -131,9 +132,8 @@ class AuthPage extends StatelessWidget {
                     validator: (String value) {
                       if (value.isEmpty) {
                         return "Please input correct Password";
-                      } else {
-                        return null;
                       }
+                      return null;
                     },
                   ),
                   Container(
